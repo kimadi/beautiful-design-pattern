@@ -84,6 +84,7 @@ class WeatherDisplayPush(ObserverPush, Display):
     weather_display_push = WeatherDisplayPush(weather_data_push, "서울")
     weather_data_push.set_measurament(26, 75, 2)
 ```
+![image](https://user-images.githubusercontent.com/54832818/190914862-e06fd1bd-57d8-4e05-89e5-8ad0b41c4836.png)
 
 
 

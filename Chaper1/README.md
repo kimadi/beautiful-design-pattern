@@ -13,11 +13,11 @@ abstract class Duck {
  }
 ```
 ```kotlin
-class MallardDuck extends Duck {
+class MallardDuck : Duck {
 	override fun display() // 무슨무슨 오리
 }
 
-class RedHeadDuck extends Duck {
+class RedHeadDuck : Duck {
 	override fun display() // 어떤어떤 오리
 }
 ```

@@ -6,7 +6,7 @@
 
      
 ```kotlin
-class Duck {
+abstract class Duck {
    quack() { "꽥꽥" }   // 모든 오리는 꽥꽥거리고 물에 뜨므로 미리 구현
    swim() { "수영" }
    display() // 모양은 서로 다르기 때문에 추상메소드
@@ -14,11 +14,11 @@ class Duck {
 ```
 ```kotlin
 class MallardDuck extends Duck {
-	display() // 무슨무슨 오리
+	override fun display() // 무슨무슨 오리
 }
 
 class RedHeadDuck extends Duck {
-	display() // 어떤어떤 오리
+	override fun display() // 어떤어떤 오리
 }
 ```
 
@@ -26,7 +26,7 @@ class RedHeadDuck extends Duck {
  
 
 ```kotlin
-class Duck {
+abstract class Duck {
    quack() { "꽥꽥" }
    swim() { "수영" }
    display()
@@ -41,10 +41,10 @@ class Duck {
      
 
 ```kotlin
-class RubberDuck extends Duck {
-	quack() { "삑삑" } // 삑삑으로 오버라이드 
-	fly() {  } // 아무것도 하지 않도록 오버라이드
-	display() 
+class RubberDuck : Duck {
+	override fun quack() { "삑삑" } // 삑삑으로 오버라이드 
+	override fun fly() {  } // 아무것도 하지 않도록 오버라이드
+	override fun display() 
  }
  ```
  > 문제점2: 필요하지 않은 기능을 작동하지 않도록 오버라이드
@@ -56,7 +56,7 @@ class RubberDuck extends Duck {
 2. 해당 기능들을 Behavior 인터페이스로 분리
 
 ```kotlin
-class Duck {
+abstract class Duck {
 	swim()
 	display()
  }
@@ -73,19 +73,19 @@ interface Quackable {
 -> 이렇게 몽총할수가;;
 
 ```kotlin
-class MallardDuck extends Duck implements Flayable, Quackable {
-	display()
-	fly()
-	quack()
+class MallardDuck : Duck, Flayable, Quackable {
+	override fun display()
+	override fun fly()
+	override fun quack()
  }
  
-class RubberDuck extends Duck implements Quackable {
-	display()
-	quack()
+class RubberDuck : Duck, Quackable {
+	override fun display()
+	override fun quack()
  }
  
- class WoodDuck extends Duck {
- 	display()
+ class WoodDuck : Duck {
+ 	override fun display()
  }
 ```
  > 문제점: <인터페이스는 모든 서브클래스에서 구현해야하므로 관리가 힘듦 <br>

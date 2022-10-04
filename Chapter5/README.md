@@ -76,6 +76,7 @@ class Singleton private constructor() {
 
 ### 전역 변수와 싱글톤
 
+![image](https://user-images.githubusercontent.com/75432228/193805018-b9be105f-3fdb-406b-9f26-7cdf638d4d5c.png)
 
 
 전역변수는 data section에 들어가 고정적인 메모리를 할당한다. (= 어플리케이션이 종료될 때까지 해당 영역을 차지한다)

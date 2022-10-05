@@ -6,6 +6,7 @@ import (
 	"fmt"
 )
 
+// 추상 데코레이터
 type Component interface {
 	Operator(string)
 }
@@ -13,16 +14,39 @@ type Component interface {
 var sentData string
 var recvData string
 
+// 구상 구성요소
 type SendComponent struct {
+}
+
+// 구상 구성요소
+type ReadComponent struct {
+}
+
+// 구상 데코레이터
+type ZipComponent struct {
+	com Component
+}
+
+// 구상 데코레이터
+type UnzipComponent struct {
+	com Component
+}
+
+// 구상 데코레이터
+type EncryptComponent struct {
+	key string
+	com Component
+}
+
+// 구상 데코레이터
+type DecryptComponent struct {
+	key string
+	com Component
 }
 
 func (self *SendComponent) Operator(data string) {
 	// 데이터 전송
 	sentData = data
-}
-
-type ZipComponent struct {
-	com Component
 }
 
 func (self *ZipComponent) Operator(data string) {
@@ -33,22 +57,12 @@ func (self *ZipComponent) Operator(data string) {
 	self.com.Operator(string(zipData))
 }
 
-type EncryptComponent struct {
-	key string
-	com Component
-}
-
 func (self *EncryptComponent) Operator(data string) {
 	encryptData, err := cipher.Encrypt([]byte(data), self.key)
 	if err != nil {
 		panic(err)
 	}
 	self.com.Operator(string(encryptData))
-}
-
-type DecryptComponent struct {
-	key string
-	com Component
 }
 
 func (self *DecryptComponent) Operator(data string) {
@@ -59,10 +73,6 @@ func (self *DecryptComponent) Operator(data string) {
 	self.com.Operator(string(decryptData))
 }
 
-type UnzipComponent struct {
-	com Component
-}
-
 func (self *UnzipComponent) Operator(data string) {
 	unzipData, err := lzw.Read([]byte(data))
 	if err != nil {
@@ -70,8 +80,6 @@ func (self *UnzipComponent) Operator(data string) {
 	}
 	self.com.Operator(string(unzipData))
 }
-
-type ReadComponent struct{}
 
 func (self *ReadComponent) Operator(data string) {
 	recvData = data

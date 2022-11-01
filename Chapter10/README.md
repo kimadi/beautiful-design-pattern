@@ -13,7 +13,9 @@
 - `src` 디렉토리에서 예제 코드의 원본 확인 가능
 - `python ./src/main.py`로 예제 코드를 실행해볼 수 있음
 
-- 위 상태 다이어그램을 기반으로 코드 작성
+
+![image](https://user-images.githubusercontent.com/54832818/199292038-64fa439d-f4df-46a8-b3d3-f7d6b47ad9a6.png)
+- 위 상태 다이어그램을 기반으로 코드 작성 ([Link](https://www.figma.com/file/zTG1R9YxLjGGDBmgRILR8h/%EA%B9%80%EC%95%84%EB%94%94_10%EC%9E%A5_%EC%83%81%ED%83%9C?node-id=0%3A1))
 - 4개의 State 클래스: Happy, Hungry, Tired, Unhappy
 - 위 State 클래스 중 하나를 가지고 있는 Context 클래스: Milky
 

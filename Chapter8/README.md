@@ -11,9 +11,9 @@
 - 템플릿 메소드를 이용하면 알고리즘의 구조는 그대로 유지하면서 서브클래스에서 특정 단계를 재정의 할 수 있다.
 
 
-## 책 예시
+## 템플릿 메소드 패턴 예시
 
-#### 커피와 차가 만들어 지는법을 비교해보자
+#### 커피와 차가 만들어 지는 법을 비교해보자
 
 ```
 1. 커피 만드는 법
@@ -62,7 +62,7 @@ void prepareRecipe() {
 ```
 
 
-### 템플릿 메소드 패턴 전체 코드
+### 전체 코드
 
 ```java
 public abstract class CaffeineBeverage {
@@ -179,3 +179,109 @@ addCondiments(); 첨가물은 음료마다 다르기때문에 서브클래스에
 - CaffeineBeverage 덕분에 서브클래스에서 코드를 재사용 가능
 - CaffeineBeverage 알고리즘을 독점하고 있기 때문에 유지보수 용이
 - 다른 음료도 메소드 몇개로 쉽게 추가할 수 있는 구조
+
+
+## 후크란?
+
+- 후크(hook)는 추상클래스에서 선언되는 메소드긴 하지만 기본적인 내용만 구현되어 있거나 아무 코드도 들어있지 않은 메소드이다.
+- 후크를 사용하면 서브클래스 입장에서는 다양한 위치에서 알고리즘에 끼어들수 있는 이점이 있다.
+
+```java
+public abstract class CaffeineBeverageWithHook {
+
+	final void prepareRecipe() {
+
+		boilWater();
+
+		brew();
+
+		pourInCup();
+
+		if (customerWantsCondiments()) {
+
+			addcondiments();
+
+		}
+
+	}
+
+	abstract void brew();
+
+	abstract void addcondiments();
+
+	void boilWater() {
+
+		System.out.println("물 끓이는 중");
+
+	}
+
+	void pourInCup() {
+
+		System.out.println("컵에 따르는 중");
+
+	}
+
+	boolean customerWantsCondiments() { // 이 메소드는 서브클래스에서 필요에 따라
+
+		return true; // 오버라이드 할수 있는 메소드이므로 후크이다.
+
+	}
+
+}
+```
+
+```java
+public class CoffeeWithHook extends CaffeineBeverageWithHook {
+
+	@Override
+	void brew() {
+
+		System.out.println("필터를 통해 커피를 우려내는 중");
+
+	}
+
+	@Override
+	public void addCondiments() {
+
+		System.out.println("설탕과 우유를 추가하는 중");
+
+	}
+
+	@Override
+	public boolean customerWantsCondiments() {
+
+		String answer = getUserInput();
+
+		if (answer.toLowerCase().startWith("y"))
+			return true;
+
+		else
+			return false;
+
+	}
+
+	private String getUserInput() {
+
+		// 입력받는 로직
+
+	}
+
+}
+```
+
+#### 알고리즘에서 필수적이지 않은 부분을 필요에 따라 선택적으로 서브클래스에서 구현하든 말든 하도록 하는 경우에 후크를 사용할 수 있다.
+
+
+## 할리우드 원칙
+
+
+한 줄 요약
+> 먼저 연락하지 마세요. 저희가 연락 드리겠습니다.
+
+- 이 디자인 원칙을 활용하면 의존성 부패(dependency rot)를 방지 할수 있다.
+
+- 어떤 고수준 구성요소가 저수준 구성요소에 의존하고, 그 저수준 구성요소는 다시 고수준 구성요소에 의존하고, 그 고수준 구성요소는 다시 또 다른 구성요소에 의존하고.. 이런 식으로 의존성이 복잡하게 꼬여있는 것을 의존성 부패라고 한다.
+
+ - 헐리우드 원칙을 사용하면, 저수준 구성요소에서 시스템에 접속을 할수는 있지만, 언제 어떤 식으로 그 구성요소들을 사용할지는 고수준 구성요소에서 결정하게 된다.
+
+- 즉 저수준 구성요소는 컴퓨테이션에 참여할 수는 있지만 절대 고수준 구송요소를 직접 호출하면 안된다는 것이다.
